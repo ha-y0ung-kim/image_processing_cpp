@@ -1,5 +1,7 @@
 .vscode
 main_imgp
+fftw-3.3.10
+fftw-3.3.10.tar.gz
 # Prerequisites
 *.d
 
