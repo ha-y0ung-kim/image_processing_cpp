@@ -39,6 +39,33 @@ std::vector<std::vector<std::vector<uint8_t>>> load_image(std::string filename)
     return image;
 }
 
+void export_image(std::vector<std::vector<std::vector<uint8_t>>> image)
+{
+    int width = image.size();
+    int height = image[0].size();
+    int channels = image[0][0].size();
+
+    uint8_t out[width * height * channels] = {0};
+
+    int a = 0;
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            for (int k = 0; k < channels; k++)
+            {
+                out[a] = image[j][i][k];
+                a += 1;
+            }
+        }
+    }
+
+    uint8_t *final_img;
+    final_img = out;
+
+    stbi_write_png("test.png", width, height, channels, final_img, width * channels);
+}
+
 // std::vector<std::vector<std::vector<uint8_t>>> convolution(std::vector<std::vector<std::vector<uint8_t>>> image, std::vector<std::vector<std::vector<uint8_t>>> kernel)
 // {
 // }
