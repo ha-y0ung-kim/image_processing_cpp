@@ -1,17 +1,12 @@
-//#include <stdio.h>
+
 #include <iostream>
 #include <vector>
 #include <string>
-//#include <stdint.h>
-//#include <stdlib.h>
-// #include <experimental/filesystem>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb/stb_image.h"
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb/stb_image_write.h"
-
-// namespace fs = std::experimental::filesystem
 
 int main()
 {
@@ -24,6 +19,7 @@ int main()
     uint8_t *img = stbi_load(filename, &width, &height, &channels, 0);
 
     //uint8_t *img = stbi_load("img_lenna.png", &width, &height, &channels, 0);
+
     if (img == NULL)
     {
         std::cout << "Error in loading the image" << std::endl;
