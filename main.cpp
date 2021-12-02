@@ -105,6 +105,40 @@ void print_2dvector(std::vector<std::vector<double>> &vec)
     }
 }
 
+std::vector<std::vector<std::vector<uint8_t>>> convolution(std::vector<std::vector<std::vector<uint8_t>>> image, std::vector<std::vector<double>> kernel)
+{
+    std::vector<std::vector<std::vector<uint8_t>>> output_image;
+    output_image = image;
+    int height = image.size();
+    int width = image[0].size();
+    int kernel_width = kernel.size();
+    int kernel_height = kernel[1].size();
+
+    double val;
+    int y, x;
+
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            val = 0.0;
+            for (int k = 0; k < kernel_height; k++)
+            {
+                for (int l = 0; l < kernel_width; l++)
+                {
+                    x = (j - kernel_width / 2 + l + width) % width;
+
+                    y = (i - kernel_height / 2 + k + height) % height;
+
+                    val += (double)image[x][y][0] * kernel[l][k];
+                }
+            }
+            output_image[j][i][0] = val;
+        }
+    }
+    return output_image;
+}
+
 int main()
 {
     std::string img_filename;
@@ -119,9 +153,13 @@ int main()
     std::vector<std::vector<std::vector<uint8_t>>> grey_image;
     grey_image = img_to_greyscale(image);
 
+    int kernel_size = 5;
     std::vector<std::vector<double>> mean_kern;
-    mean_kern = mean_filter(3);
+    mean_kern = mean_filter(kernel_size);
     print_2dvector(mean_kern);
 
-    export_image(grey_image);
+    std::vector<std::vector<std::vector<uint8_t>>> averaged_image;
+    averaged_image = convolution(grey_image, mean_kern);
+
+    export_image(averaged_image);
 }
