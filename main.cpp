@@ -66,6 +66,26 @@ void export_image(std::vector<std::vector<std::vector<uint8_t>>> image)
     stbi_write_png("test.png", width, height, channels, final_img, width * channels);
 }
 
+std::vector<std::vector<std::vector<uint8_t>>> img_to_greyscale(std::vector<std::vector<std::vector<uint8_t>>> image)
+{
+    int width = image.size();
+    int height = image[0].size();
+    int channel = image[0][0].size();
+    std::vector<std::vector<std::vector<uint8_t>>> grey_image(width, std::vector<std::vector<uint8_t>>(height, std::vector<uint8_t>(1)));
+
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            for (int k = 0; k < channel; k++)
+            {
+                grey_image[i][j][0] += image[i][j][k] / 3;
+            }
+        }
+    }
+    return grey_image;
+}
+
 // std::vector<std::vector<std::vector<uint8_t>>> convolution(std::vector<std::vector<std::vector<uint8_t>>> image, std::vector<std::vector<std::vector<uint8_t>>> kernel)
 // {
 // }
