@@ -9,6 +9,36 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb/stb_image_write.h"
 
+std::vector<std::vector<std::vector<uint8_t>>> load_image(std::string filename)
+{
+    const char *img_filename = filename.c_str();
+    int width, height, channels;
+    uint8_t *img = stbi_load(img_filename, &width, &height, &channels, 0);
+    if (img == NULL)
+    {
+        std::cout << "Error in loading the image" << std::endl;
+        exit(1);
+    }
+    std::cout << "Loaded image"
+              << "width : " << width << ",  height : " << height
+              << ", number of channels : " << channels << std::endl;
+
+    std::vector<std::vector<std::vector<uint8_t>>> image(width, std::vector<std::vector<uint8_t>>(height, std::vector<uint8_t>(channels)));
+
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            for (int k = 0; k < channels; k++)
+            {
+                image[i][j][k] = *(img + (i + width * j) * channels + k);
+            }
+        }
+    }
+    stbi_image_free(img);
+    return image;
+}
+
 // std::vector<std::vector<std::vector<uint8_t>>> convolution(std::vector<std::vector<std::vector<uint8_t>>> image, std::vector<std::vector<std::vector<uint8_t>>> kernel)
 // {
 // }
