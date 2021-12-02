@@ -19,10 +19,12 @@ int main()
     uint8_t *img = stbi_load("img_lenna.png", &width, &height, &channels, 0);
     if (img == NULL)
     {
-        printf("Error in loading the image\n");
+        std::cout << "Error in loading the image" << std::endl;
         exit(1);
     }
-    printf("Loaded image with a width of %dpx, a height of %dpx and %d channels\n", width, height, channels);
+    std::cout << "Loaded image"
+              << "width : " << width << ",  height : " << height
+              << ", number of channels : " << channels << std::endl;
 
     std::vector<std::vector<std::vector<uint8_t>>> image(width, std::vector<std::vector<uint8_t>>(height, std::vector<uint8_t>(channels)));
 
