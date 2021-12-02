@@ -9,42 +9,43 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb/stb_image_write.h"
 
-std::vector<std::vector<std::vector<uint8_t>>> convolution(std::vector<std::vector<std::vector<uint8_t>>> image, std::vector<std::vector<std::vector<uint8_t>>> kernel)
-{
-}
+// std::vector<std::vector<std::vector<uint8_t>>> convolution(std::vector<std::vector<std::vector<uint8_t>>> image, std::vector<std::vector<std::vector<uint8_t>>> kernel)
+// {
+// }
 
-std::vector<std::vector<std::vector<uint8_t>>> mean_filter(int kernal_size, int num_channel)
-{
-    double kernal_value = 1 / (kernal_size * kernal_size);
-    std::vector<std::vector<std::vector<uint8_t>>> output(kernal_size, std::vector<std::vector<uint8_t>>(kernal_size, std::vector<uint8_t>(num_channel)));
-    std::fill(output.begin(), output.end(), kernal_value);
-    return output;
-}
+// std::vector<std::vector<std::vector<double>>> mean_filter(int kernal_size, int num_channel)
+// {
+//     double kernal_value = 1 / (kernal_size * kernal_size);
+//     std::vector<std::vector<std::vector<double>>> output(kernal_size, std::vector<std::vector<double>>(kernal_size, std::vector<double>(num_channel)));
+//     std::fill(output.begin(), output.end(), kernal_value);
+//     return output;
+// }
 
-void print_3dmatrix(std::vector<std::vector<std::vector<uint8_t>>> &vec)
-{
-    // print 3d matrix vec
+// void print_3dmatrix(std::vector<std::vector<std::vector<double>>> &vec)
+// {
+//     // print 3d matrix vec
 
-    for (int i = 0; i < vec[0][0].size(); i++)
-    {
-        for (int j = 0; j < vec[1].size(); j++)
-        {
-            for (int k = 0; k < vec.size(); k++)
-            {
-                std::cout << vec[k][j][i] << " ";
-            }
-            std::cout << std::endl;
-        }
-        std::cout << std::endl;
-        std::cout << std::endl;
-    }
-}
+//     for (int i = 0; i < vec[0][0].size(); i++)
+//     {
+//         for (int j = 0; j < vec[1].size(); j++)
+//         {
+//             for (int k = 0; k < vec.size(); k++)
+//             {
+//                 std::cout << vec[k][j][i] << " ";
+//             }
+//             std::cout << std::endl;
+//         }
+//         std::cout << std::endl;
+//         std::cout << std::endl;
+//     }
+// }
 
 int main()
 {
     std::string img_filename;
-    std::cout << "type input file name";
+    std::cout << "type input file name ";
     std::cin >> img_filename;
+
     const char *filename = img_filename.c_str();
 
     int width, height, channels;
@@ -74,6 +75,19 @@ int main()
         }
     }
 
+    std::vector<std::vector<std::vector<uint8_t>>> grey_image(width, std::vector<std::vector<uint8_t>>(height, std::vector<uint8_t>(1)));
+
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            for (int k = 0; k < channels; k++)
+            {
+                grey_image[i][j][0] += image[i][j][k] / channels;
+            }
+        }
+    }
+
     uint8_t out[width * height * channels] = {0};
 
     int a = 0;
@@ -83,7 +97,7 @@ int main()
         {
             for (int k = 0; k < channels; k++)
             {
-                out[a] = image[j][i][k];
+                out[a] = grey_image[j][i][k];
                 a += 1;
             }
         }
