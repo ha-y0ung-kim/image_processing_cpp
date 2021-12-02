@@ -123,66 +123,13 @@ int main()
     std::cout << "type input file name ";
     std::cin >> img_filename;
 
-    const char *filename = img_filename.c_str();
+    std::vector<std::vector<std::vector<uint8_t>>> image;
+    image = load_image(img_filename);
 
-    int width, height, channels;
-    uint8_t *img = stbi_load(filename, &width, &height, &channels, 0);
+    int width = image.size();
+    int height = image[0].size();
+    std::vector<std::vector<std::vector<uint8_t>>> grey_image;
+    grey_image = img_to_greyscale(image);
 
-    //uint8_t *img = stbi_load("img_lenna.png", &width, &height, &channels, 0);
-
-    if (img == NULL)
-    {
-        std::cout << "Error in loading the image" << std::endl;
-        exit(1);
-    }
-    std::cout << "Loaded image"
-              << "width : " << width << ",  height : " << height
-              << ", number of channels : " << channels << std::endl;
-
-    std::vector<std::vector<std::vector<uint8_t>>> image(width, std::vector<std::vector<uint8_t>>(height, std::vector<uint8_t>(channels)));
-
-    for (int i = 0; i < height; i++)
-    {
-        for (int j = 0; j < width; j++)
-        {
-            for (int k = 0; k < channels; k++)
-            {
-                image[i][j][k] = *(img + (i + width * j) * channels + k);
-            }
-        }
-    }
-
-    std::vector<std::vector<std::vector<uint8_t>>> grey_image(width, std::vector<std::vector<uint8_t>>(height, std::vector<uint8_t>(1)));
-
-    for (int i = 0; i < height; i++)
-    {
-        for (int j = 0; j < width; j++)
-        {
-            for (int k = 0; k < channels; k++)
-            {
-                grey_image[i][j][0] += image[i][j][k] / channels;
-            }
-        }
-    }
-
-    uint8_t out[width * height * channels] = {0};
-
-    int a = 0;
-    for (int i = 0; i < height; i++)
-    {
-        for (int j = 0; j < width; j++)
-        {
-            for (int k = 0; k < channels; k++)
-            {
-                out[a] = grey_image[j][i][k];
-                a += 1;
-            }
-        }
-    }
-
-    uint8_t *final_img;
-    final_img = out;
-
-    stbi_write_png("test.png", width, height, channels, final_img, width * channels);
-    stbi_image_free(img);
+    export_image(grey_image);
 }
