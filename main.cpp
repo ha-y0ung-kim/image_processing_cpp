@@ -86,36 +86,24 @@ std::vector<std::vector<std::vector<uint8_t>>> img_to_greyscale(std::vector<std:
     return grey_image;
 }
 
-// std::vector<std::vector<std::vector<uint8_t>>> convolution(std::vector<std::vector<std::vector<uint8_t>>> image, std::vector<std::vector<std::vector<uint8_t>>> kernel)
-// {
-// }
+std::vector<std::vector<double>> mean_filter(int kernel_size)
+{
+    double kernel_value = 1 / ((double)kernel_size * (double)kernel_size);
+    std::vector<std::vector<double>> mean_kernel(kernel_size, std::vector<double>(kernel_size, kernel_value));
+    return mean_kernel;
+}
 
-// std::vector<std::vector<std::vector<double>>> mean_filter(int kernal_size, int num_channel)
-// {
-//     double kernal_value = 1 / (kernal_size * kernal_size);
-//     std::vector<std::vector<std::vector<double>>> output(kernal_size, std::vector<std::vector<double>>(kernal_size, std::vector<double>(num_channel)));
-//     std::fill(output.begin(), output.end(), kernal_value);
-//     return output;
-// }
-
-// void print_3dmatrix(std::vector<std::vector<std::vector<double>>> &vec)
-// {
-//     // print 3d matrix vec
-
-//     for (int i = 0; i < vec[0][0].size(); i++)
-//     {
-//         for (int j = 0; j < vec[1].size(); j++)
-//         {
-//             for (int k = 0; k < vec.size(); k++)
-//             {
-//                 std::cout << vec[k][j][i] << " ";
-//             }
-//             std::cout << std::endl;
-//         }
-//         std::cout << std::endl;
-//         std::cout << std::endl;
-//     }
-// }
+void print_2dvector(std::vector<std::vector<double>> &vec)
+{
+    for (const auto &row : vec)
+    {
+        for (const auto &elem : row)
+        {
+            std::cout << elem << " ";
+        }
+        std::cout << std::endl;
+    }
+}
 
 int main()
 {
@@ -130,6 +118,10 @@ int main()
     int height = image[0].size();
     std::vector<std::vector<std::vector<uint8_t>>> grey_image;
     grey_image = img_to_greyscale(image);
+
+    std::vector<std::vector<double>> mean_kern;
+    mean_kern = mean_filter(3);
+    print_2dvector(mean_kern);
 
     export_image(grey_image);
 }
