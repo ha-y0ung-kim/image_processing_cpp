@@ -1,6 +1,7 @@
 //#include <stdio.h>
 #include <iostream>
 #include <vector>
+#include <string>
 //#include <stdint.h>
 //#include <stdlib.h>
 // #include <experimental/filesystem>
@@ -14,9 +15,15 @@
 
 int main()
 {
+    std::string img_filename;
+    std::cout << "type input file name";
+    std::cin >> img_filename;
+    const char *filename = img_filename.c_str();
 
     int width, height, channels;
-    uint8_t *img = stbi_load("img_lenna.png", &width, &height, &channels, 0);
+    uint8_t *img = stbi_load(filename, &width, &height, &channels, 0);
+
+    //uint8_t *img = stbi_load("img_lenna.png", &width, &height, &channels, 0);
     if (img == NULL)
     {
         std::cout << "Error in loading the image" << std::endl;
