@@ -21,8 +21,24 @@ std::vector<std::vector<std::vector<uint8_t>>> mean_filter(int kernal_size, int 
     return output;
 }
 
+void print_3dmatrix(std::vector<std::vector<std::vector<uint8_t>>> &vec)
+{
+    // print 3d matrix vec
 
-
+    for (int i = 0; i < vec[0][0].size(); i++)
+    {
+        for (int j = 0; j < vec[1].size(); j++)
+        {
+            for (int k = 0; k < vec.size(); k++)
+            {
+                std::cout << vec[k][j][i] << " ";
+            }
+            std::cout << std::endl;
+        }
+        std::cout << std::endl;
+        std::cout << std::endl;
+    }
+}
 
 int main()
 {
