@@ -118,7 +118,7 @@ void print_2dvector(std::vector<std::vector<double>> &vec)
     }
 }
 
-std::vector<std::vector<std::vector<uint8_t>>> convolution(std::vector<std::vector<std::vector<uint8_t>>> image, std::vector<std::vector<double>> kernel)
+std::vector<std::vector<std::vector<uint8_t>>> convolution(std::vector<std::vector<std::vector<uint8_t>>> image, std::vector<std::vector<double>> kernel, bool addpix)
 {
     int width = image.size();
     int height = image[0].size();
@@ -182,18 +182,26 @@ std::vector<std::vector<std::vector<uint8_t>>> convolution(std::vector<std::vect
                     val += (double)image[y][x][0] * kernel[l][k];
                 }
             }
-            val += 128;
-            if (val < 0)
+            if (addpix == false)
             {
-                output_image[i][j][0] = 0;
-            }
-            else if (val > 255)
-            {
-                output_image[i][j][0] = 255;
+                output_image[i][j][0] = val;
             }
             else
             {
-                output_image[i][j][0] = val;
+
+                val += 128;
+                if (val < 0)
+                {
+                    output_image[i][j][0] = 0;
+                }
+                else if (val > 255)
+                {
+                    output_image[i][j][0] = 255;
+                }
+                else
+                {
+                    output_image[i][j][0] = val;
+                }
             }
         }
     }
@@ -214,20 +222,20 @@ int main()
     std::vector<std::vector<std::vector<uint8_t>>> grey_image;
     grey_image = img_to_greyscale(image);
 
-    // int kernel_size = 5;
-    // std::vector<std::vector<double>> mean_kern;
-    // mean_kern = mean_filter(kernel_size);
-    // print_2dvector(mean_kern);
+    int kernel_size = 3;
+    std::vector<std::vector<double>> mean_kern;
+    mean_kern = mean_filter(kernel_size);
+    //print_2dvector(mean_kern);
 
-    // std::vector<std::vector<std::vector<uint8_t>>> averaged_image;
-    // averaged_image = convolution(grey_image, mean_kern);
+    std::vector<std::vector<std::vector<uint8_t>>> averaged_image;
+    averaged_image = convolution(grey_image, mean_kern, false);
 
     std::vector<std::vector<std::vector<uint8_t>>> edge_image_x, edge_image_y, edge_image;
     std::vector<std::vector<double>> sobal_kernel;
     sobal_kernel = sobal_filter_x();
-    print_2dvector(sobal_kernel);
-    edge_image_x = convolution(grey_image, sobal_kernel);
-    edge_image_y = convolution(grey_image, sobal_filter_y());
+    //print_2dvector(sobal_kernel);
+    edge_image_x = convolution(grey_image, sobal_kernel, true);
+    edge_image_y = convolution(grey_image, sobal_filter_y(), true);
 
     export_image(edge_image_x);
 }
