@@ -3,5 +3,6 @@
 loading image libraries
 https://github.com/nothings/stb
 
-FFT library
-https://www.fftw.org/
+only going to use odd number of kernel size, and kernel is going to be rectangular.
+
+The image is processed only in BW.
