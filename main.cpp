@@ -128,6 +128,13 @@ std::vector<std::vector<double>> gaussian_filter(int kernel_size, double sigma)
     return gaussian_kernel;
 }
 
+std::vector<std::vector<double>> laplacian_filter(int kernel_size)
+{
+    std::vector<std::vector<double>> laplacian_kernel(kernel_size, std::vector<double>(kernel_size, -1.0));
+    laplacian_kernel[kernel_size / 2][kernel_size / 2] = kernel_size * kernel_size - 1;
+    return laplacian_kernel;
+}
+
 void print_2dvector(std::vector<std::vector<double>> &vec)
 {
     for (const auto &row : vec)
@@ -259,14 +266,22 @@ int main()
     // edge_image_x = convolution(grey_image, sobal_kernel, true);
     // edge_image_y = convolution(grey_image, sobal_filter_y(), true);
 
+    // int kernel_size = 5;
+    // double kernel_sigma = 1;
+    // std::vector<std::vector<double>> gaussian_kern;
+    // gaussian_kern = gaussian_filter(kernel_size, kernel_sigma);
+    // print_2dvector(gaussian_kern);
+
+    // std::vector<std::vector<std::vector<uint8_t>>> gaussian_image;
+    // gaussian_image = convolution(grey_image, gaussian_kern, false);
+
     int kernel_size = 5;
-    double kernel_sigma = 1;
-    std::vector<std::vector<double>> gaussian_kern;
-    gaussian_kern = gaussian_filter(kernel_size, kernel_sigma);
-    print_2dvector(gaussian_kern);
+    std::vector<std::vector<double>> laplacian_kern;
+    laplacian_kern = laplacian_filter(kernel_size);
+    print_2dvector(laplacian_kern);
 
-    std::vector<std::vector<std::vector<uint8_t>>> gaussian_image;
-    gaussian_image = convolution(grey_image, gaussian_kern, false);
+    std::vector<std::vector<std::vector<uint8_t>>> laplacian_image;
+    laplacian_image = convolution(grey_image, laplacian_kern, true);
 
-    export_image(gaussian_image);
+    export_image(laplacian_image);
 }
