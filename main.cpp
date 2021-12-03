@@ -106,6 +106,28 @@ std::vector<std::vector<double>> sobal_filter_y()
     return sobal_kernel;
 }
 
+std::vector<std::vector<double>> gaussian_filter(int kernel_size, double sigma)
+{
+    std::vector<std::vector<double>> gaussian_kernel(kernel_size, std::vector<double>(kernel_size, 0));
+    double sum = 0.0;
+    for (int i = 0; i < kernel_size; i++)
+    {
+        for (int j = 0; j < kernel_size; j++)
+        {
+            gaussian_kernel[i][j] = std::exp(-(i * i + j * j) / (2 * sigma * sigma)) / (2 * M_PI * sigma * sigma);
+            sum += gaussian_kernel[i][j];
+        }
+    }
+    for (int i = 0; i < kernel_size; i++)
+    {
+        for (int j = 0; j < kernel_size; j++)
+        {
+            gaussian_kernel[i][j] /= sum;
+        }
+    }
+    return gaussian_kernel;
+}
+
 void print_2dvector(std::vector<std::vector<double>> &vec)
 {
     for (const auto &row : vec)
@@ -222,20 +244,29 @@ int main()
     std::vector<std::vector<std::vector<uint8_t>>> grey_image;
     grey_image = img_to_greyscale(image);
 
-    int kernel_size = 3;
-    std::vector<std::vector<double>> mean_kern;
-    mean_kern = mean_filter(kernel_size);
+    // int kernel_size = 3;
+    // std::vector<std::vector<double>> mean_kern;
+    // mean_kern = mean_filter(kernel_size);
     //print_2dvector(mean_kern);
 
-    std::vector<std::vector<std::vector<uint8_t>>> averaged_image;
-    averaged_image = convolution(grey_image, mean_kern, false);
+    // std::vector<std::vector<std::vector<uint8_t>>> averaged_image;
+    // averaged_image = convolution(grey_image, mean_kern, false);
 
-    std::vector<std::vector<std::vector<uint8_t>>> edge_image_x, edge_image_y, edge_image;
-    std::vector<std::vector<double>> sobal_kernel;
-    sobal_kernel = sobal_filter_x();
-    //print_2dvector(sobal_kernel);
-    edge_image_x = convolution(grey_image, sobal_kernel, true);
-    edge_image_y = convolution(grey_image, sobal_filter_y(), true);
+    // std::vector<std::vector<std::vector<uint8_t>>> edge_image_x, edge_image_y, edge_image;
+    // std::vector<std::vector<double>> sobal_kernel;
+    // sobal_kernel = sobal_filter_x();
+    // //print_2dvector(sobal_kernel);
+    // edge_image_x = convolution(grey_image, sobal_kernel, true);
+    // edge_image_y = convolution(grey_image, sobal_filter_y(), true);
 
-    export_image(edge_image_x);
+    int kernel_size = 5;
+    double kernel_sigma = 1;
+    std::vector<std::vector<double>> gaussian_kern;
+    gaussian_kern = gaussian_filter(kernel_size, kernel_sigma);
+    print_2dvector(gaussian_kern);
+
+    std::vector<std::vector<std::vector<uint8_t>>> gaussian_image;
+    gaussian_image = convolution(grey_image, gaussian_kern, false);
+
+    export_image(gaussian_image);
 }
