@@ -1,12 +1,25 @@
 #include <vector>
 
-std::vector<std::vector<std::vector<uint8_t>>> convolution(std::vector<std::vector<std::vector<uint8_t>>> image, std::vector<std::vector<double>> kernel, bool addpix)
+#include "vectortypes.h"
+
+vector3d convolution(const vector3d &image, const vector2dd &kernel, bool addpix)
 {
     int height = image[0].size();
     int width = image[0][0].size();
+    int pad_size = kernel.size() - 1;
+    int kernel_half = kernel.size() / 2;
 
-    std::vector<std::vector<std::vector<uint8_t>>> output_image(1, std::vector<std::vector<uint8_t>>(height, std::vector<uint8_t>(width)));
+    vector3d output_image(1, vector2d(height, std::vector<uint8_t>(width)));
     output_image = image;
+    vector3d padded_image(1, vector2d(height + pad_size, std::vector<uint8_t>(width + pad_size, 0)));
+
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            padded_image[0][i + kernel_half][j + kernel_half] = image[0][i][j];
+        }
+    }
 
     int kernel_width = kernel.size();
     int kernel_height = kernel[0].size();
@@ -24,10 +37,12 @@ std::vector<std::vector<std::vector<uint8_t>>> convolution(std::vector<std::vect
                 for (int l = 0; l < kernel_width; l++)
                 {
 
-                    ii = (i - kernel_height / 2 + k + height) % height;
-                    jj = (j - kernel_width / 2 + l + width) % width;
+                    // ii = (i - kernel_height / 2 + k + height) % height;
+                    // jj = (j - kernel_width / 2 + l + width) % width;
+                    ii = i - kernel_height / 2 + k;
+                    jj = j - kernel_width / 2 + l;
 
-                    val += (double)image[0][ii][jj] * kernel[k][l];
+                    val += (double)padded_image[0][ii + kernel_half][jj + kernel_half] * kernel[k][l];
 
                     // ii = i - kernel_height / 2 + k;
                     // jj = j - kernel_width / 2 + l;
