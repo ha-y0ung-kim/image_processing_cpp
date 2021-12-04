@@ -1,35 +1,37 @@
 #include <vector>
 #include <cmath>
 
-std::vector<std::vector<double>> mean_filter(int kernel_size)
+#include "vectortypes.h"
+
+vector2dd mean_filter(int kernel_size)
 {
     double kernel_value = 1 / ((double)kernel_size * (double)kernel_size);
-    std::vector<std::vector<double>> mean_kernel(kernel_size, std::vector<double>(kernel_size, kernel_value));
+    vector2dd mean_kernel(kernel_size, std::vector<double>(kernel_size, kernel_value));
     return mean_kernel;
 }
 
-std::vector<std::vector<double>> sobal_filter_x()
+vector2dd sobal_filter_x()
 {
-    std::vector<std::vector<double>> sobal_kernel = {{1.0, 0.0, -1.0}, {2.0, 0.0, -2.0}, {1.0, 0.0, -1.0}};
+    vector2dd sobal_kernel = {{1.0, 0.0, -1.0}, {2.0, 0.0, -2.0}, {1.0, 0.0, -1.0}};
     return sobal_kernel;
 }
 
-std::vector<std::vector<double>> sobal_filter_y()
+vector2dd sobal_filter_y()
 {
-    std::vector<std::vector<double>> sobal_kernel = {{1.0, 2.0, 1.0}, {0.0, 0.0, 0.0}, {-1.0, -2.0, -1.0}};
+    vector2dd sobal_kernel = {{1.0, 2.0, 1.0}, {0.0, 0.0, 0.0}, {-1.0, -2.0, -1.0}};
     return sobal_kernel;
 }
 
-std::vector<std::vector<double>> laplacian_filter(int kernel_size)
+vector2dd laplacian_filter(int kernel_size)
 {
-    std::vector<std::vector<double>> laplacian_kernel(kernel_size, std::vector<double>(kernel_size, -1.0));
+    vector2dd laplacian_kernel(kernel_size, std::vector<double>(kernel_size, -1.0));
     laplacian_kernel[kernel_size / 2][kernel_size / 2] = kernel_size * kernel_size - 1;
     return laplacian_kernel;
 }
 
-std::vector<std::vector<double>> gaussian_filter(int kernel_size, double sigma)
+vector2dd gaussian_filter(int kernel_size, double sigma)
 {
-    std::vector<std::vector<double>> gaussian_kernel(kernel_size, std::vector<double>(kernel_size, 0));
+    vector2dd gaussian_kernel(kernel_size, std::vector<double>(kernel_size, 0));
     double sum = 0.0;
     for (int i = 0; i < kernel_size; i++)
     {
