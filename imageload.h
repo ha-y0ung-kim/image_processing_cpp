@@ -7,21 +7,32 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb/stb_image_write.h"
 
-std::vector<std::vector<std::vector<uint8_t>>> load_image(std::string filename)
+#include "vectortypes.h"
+
+vector3d load_image()
 {
+
+    std::string filename;
+    std::cout << "type input file name : ";
+    std::cin >> filename;
     const char *img_filename = filename.c_str();
     int width, height, channels;
+
     uint8_t *img = stbi_load(img_filename, &width, &height, &channels, 0);
-    if (img == NULL)
+    while (img == NULL)
     {
         std::cout << "Error in loading the image" << std::endl;
-        exit(1);
+        std::cout << "type input file name : " << std::endl;
+        std::cin >> filename;
+        const char *img_filename = filename.c_str();
+        img = stbi_load(img_filename, &width, &height, &channels, 0);
     }
+
     std::cout << "Loaded image"
               << "width : " << width << ",  height : " << height
               << ", number of channels : " << channels << std::endl;
 
-    std::vector<std::vector<std::vector<uint8_t>>> image(channels, std::vector<std::vector<uint8_t>>(height, std::vector<uint8_t>(width)));
+    vector3d image(channels, vector2d(height, std::vector<uint8_t>(width)));
 
     for (int k = 0; k < channels; k++)
     {
@@ -37,7 +48,7 @@ std::vector<std::vector<std::vector<uint8_t>>> load_image(std::string filename)
     return image;
 }
 
-void export_image(std::vector<std::vector<std::vector<uint8_t>>> image)
+void export_image(const vector3d &image)
 {
     int channels = image.size();
     int height = image[0].size();
@@ -64,13 +75,13 @@ void export_image(std::vector<std::vector<std::vector<uint8_t>>> image)
     stbi_write_png("test.png", width, height, channels, final_img, width * channels);
 }
 
-std::vector<std::vector<std::vector<uint8_t>>> img_to_greyscale(std::vector<std::vector<std::vector<uint8_t>>> image)
+vector3d img_to_greyscale(const vector3d &image)
 {
     int num_channels = image.size();
     int height = image[0].size();
     int width = image[0][0].size();
 
-    std::vector<std::vector<std::vector<uint8_t>>> grey_image(1, std::vector<std::vector<uint8_t>>(height, std::vector<uint8_t>(width)));
+    vector3d grey_image(1, vector2d(height, std::vector<uint8_t>(width)));
 
     for (int i = 0; i < height; i++)
     {
@@ -85,10 +96,10 @@ std::vector<std::vector<std::vector<uint8_t>>> img_to_greyscale(std::vector<std:
     return grey_image;
 }
 
-std::vector<std::vector<std::vector<uint8_t>>> open_image_as_greyscale(std::string filename)
+vector3d open_image_as_greyscale()
 {
-    std::vector<std::vector<std::vector<uint8_t>>> image, grey_image;
-    image = load_image(filename);
+    vector3d image, grey_image;
+    image = load_image();
     grey_image = img_to_greyscale(image);
     return grey_image;
 }
