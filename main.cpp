@@ -5,12 +5,12 @@
 #include <algorithm>
 #include <cmath>
 
-#include "imageload.h"
-#include "convolution.h"
-#include "filters.h"
-#include "printvector.h"
-#include "vectoroperation.h"
-#include "vectortypes.h"
+#include "header_files/imageload.h"
+#include "header_files/convolution.h"
+#include "header_files/filters.h"
+#include "header_files/printvector.h"
+#include "header_files/vectoroperation.h"
+#include "header_files/vectortypes.h"
 
 int main()
 {
