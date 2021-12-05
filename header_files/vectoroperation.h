@@ -41,7 +41,7 @@ vector3d operator*(const double &number, const vector3d &vec_a)
     int height = vec_a[0].size();
     int width = vec_a[0][0].size();
 
-    vector3d vec_mul(width, vector2d(height, std::vector<uint8_t>(channel)));
+    vector3d vec_mul(channel, vector2d(height, std::vector<uint8_t>(width)));
 
     for (int i = 0; i < channel; i++)
     {
