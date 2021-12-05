@@ -84,7 +84,7 @@ void export_image(const vector3d &image)
     uint8_t *final_img;
     final_img = out;
 
-    stbi_write_png("test.png", width, height, num_channels, final_img, width * num_channels);
+    stbi_write_png("output.png", width, height, num_channels, final_img, width * num_channels);
 }
 
 vector3d img_to_greyscale(const vector3d &image)
