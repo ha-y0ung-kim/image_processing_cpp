@@ -1,49 +1,53 @@
 #include <vector>
 #include <iostream>
 
-std::vector<std::vector<std::vector<uint8_t>>> operator+(const std::vector<std::vector<std::vector<uint8_t>>> &vec_a,
-                                                         const std::vector<std::vector<std::vector<uint8_t>>> &vec_b)
+#include "vectortypes.h"
+
+vector3d operator+(const vector3d &vec_a, const vector3d &vec_b)
 {
     /*
-     * Overload operator+ to allow addition of two double vectors
-     * of the same size. The return value is another vector formed by
-     * adding the corresponding elements of vec_a and vec_b.
-     */
+    Overload operator+ to allow element wise addition of two 3d dimensional vectors of the same size
+    */
 
     assert(vec_a.size() == vec_b.size());
-    int width = vec_a.size();
+    assert(vec_a[0].size() == vec_b[0].size());
+    assert(vec_a[0][0].size() == vec_b[0][0].size());
+
+    int channel = vec_a.size();
     int height = vec_a[0].size();
-    int channel = vec_a[0][0].size();
+    int width = vec_a[0][0].size();
 
-    std::vector<std::vector<std::vector<uint8_t>>> vec_sum(width, std::vector<std::vector<uint8_t>>(height, std::vector<uint8_t>(channel)));
-
-    for (auto i = 0; i < width; i++)
-    {
-        for (auto j = 0; j < height; j++)
-        {
-            for (auto k = 0; k < channel; k++)
-            {
-                vec_sum[i][j][k] = vec_a[i][j][k] + vec_b[i][j][k];
-            }
-        }
-    }
-    return vec_sum;
-}
-
-std::vector<std::vector<std::vector<uint8_t>>> operator*(const double &number,
-                                                         const std::vector<std::vector<std::vector<uint8_t>>> &vec_a)
-{
-    int width = vec_a.size();
-    int height = vec_a[0].size();
-    int channel = vec_a[0][0].size();
-
-    std::vector<std::vector<std::vector<uint8_t>>> vec_mul(width, std::vector<std::vector<uint8_t>>(height, std::vector<uint8_t>(channel)));
+    vector3d vec_sum(channel, vector2d(height, std::vector<uint8_t>(width)));
 
     for (int i = 0; i < width; i++)
     {
         for (int j = 0; j < height; j++)
         {
             for (int k = 0; k < channel; k++)
+            {
+                vec_sum[k][j][i] = vec_a[k][j][i] + vec_b[k][j][i];
+            }
+        }
+    }
+    return vec_sum;
+}
+
+vector3d operator*(const double &number, const vector3d &vec_a)
+{
+    /*
+    Overload operator* to allow multiplication of a double with a 3d vector
+    */
+    int channel = vec_a.size();
+    int height = vec_a[0].size();
+    int width = vec_a[0][0].size();
+
+    vector3d vec_mul(width, vector2d(height, std::vector<uint8_t>(channel)));
+
+    for (int i = 0; i < channel; i++)
+    {
+        for (int j = 0; j < height; j++)
+        {
+            for (int k = 0; k < width; k++)
             {
                 vec_mul[i][j][k] = number * vec_a[i][j][k];
             }
