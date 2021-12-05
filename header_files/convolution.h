@@ -4,6 +4,18 @@
 
 vector3d convolution(const vector3d &image, const vector2dd &kernel, bool addpix)
 {
+    /*
+    returns the convolution of an image.
+    The image is zero-padded in the spatial domain to convolve through all the image pixels.
+
+    Input
+        image: image to be convolved
+        kernel : convolution kernel
+        addpix : set "true" if convolution kernel has a negative value
+    Return
+        output_image : convolved 3d image vector
+    */
+
     int height = image[0].size();
     int width = image[0][0].size();
     int pad_size = kernel.size() - 1;
@@ -36,20 +48,9 @@ vector3d convolution(const vector3d &image, const vector2dd &kernel, bool addpix
             {
                 for (int l = 0; l < kernel_width; l++)
                 {
-
-                    // ii = (i - kernel_height / 2 + k + height) % height;
-                    // jj = (j - kernel_width / 2 + l + width) % width;
                     ii = i - kernel_height / 2 + k;
                     jj = j - kernel_width / 2 + l;
-
                     val += (double)padded_image[0][ii + kernel_half][jj + kernel_half] * kernel[k][l];
-
-                    // ii = i - kernel_height / 2 + k;
-                    // jj = j - kernel_width / 2 + l;
-                    // if (ii >= 0 & ii < width & jj >= 0 & jj < height)
-                    // {
-                    //     val += (double)image[0][ii][jj] * kernel[k][l];
-                    // }
                 }
             }
             if (addpix == false)
@@ -58,7 +59,6 @@ vector3d convolution(const vector3d &image, const vector2dd &kernel, bool addpix
             }
             else
             {
-
                 val += 128;
                 if (val < 0)
                 {
