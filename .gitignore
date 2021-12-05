@@ -1,5 +1,6 @@
 main
 .vscode
+output.png
 fftw-3.3.10
 fftw-3.3.10.tar.gz
 opencv-master
