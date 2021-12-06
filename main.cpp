@@ -12,11 +12,12 @@
 #include "header_files/vectoroperation.h"
 #include "header_files/vectortypes.h"
 #include "header_files/kernel_input.h"
+#include "header_files/3d_convolution.h"
 
 int main()
 {
 
-    vector3d grey_image = open_image_as_greyscale();
+    vector3d image = load_image();
     std::cout << "select filter type : " << std::endl;
     std::cout << "Type (1) for Mean blurring" << std::endl;
     std::cout << "Type (2) for Gaussian blurring" << std::endl;
@@ -32,7 +33,7 @@ int main()
         vector2dd mean_kern;
         mean_kern = mean_filter(kernel_size);
         vector3d averaged_image;
-        averaged_image = convolution(grey_image, mean_kern, false);
+        averaged_image = convolution3d(image, mean_kern, false);
         export_image(averaged_image);
     }
     else if (num == 2)
@@ -45,7 +46,7 @@ int main()
         vector2dd gaussian_kern;
         gaussian_kern = gaussian_filter(kernel_size, kernel_sigma);
         vector3d gaussian_image;
-        gaussian_image = convolution(grey_image, gaussian_kern, false);
+        gaussian_image = convolution3d(image, gaussian_kern, false);
         export_image(gaussian_image);
     }
 
@@ -56,7 +57,7 @@ int main()
         vector2dd laplacian_kern;
         laplacian_kern = laplacian_filter(kernel_size);
         vector3d laplacian_image;
-        laplacian_image = convolution(grey_image, laplacian_kern, true);
+        laplacian_image = convolution3d(image, laplacian_kern, true);
         export_image(laplacian_image);
     }
 
@@ -67,10 +68,8 @@ int main()
         vector2dd laplacian_kern;
         laplacian_kern = laplacian_filter(kernel_size);
         vector3d laplacian_image, unsharp_image;
-        laplacian_image = convolution(grey_image, laplacian_kern, true);
-        export_image(laplacian_image);
-
-        unsharp_image = grey_image + 0.3 * laplacian_image;
+        laplacian_image = convolution3d(image, laplacian_kern, true);
+        unsharp_image = image + 0.3 * laplacian_image;
         export_image(unsharp_image);
     }
 
