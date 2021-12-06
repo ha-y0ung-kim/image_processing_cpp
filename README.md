@@ -34,6 +34,5 @@ g++ -g main.cpp -o main
 
 ## Limitations 
 - Currently, only .PNG is supported.
-- Filtering of an image is done in greyscale domain.
 - Kernel of the filter is a square kernel with odd size
 
