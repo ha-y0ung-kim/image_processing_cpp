@@ -87,6 +87,38 @@ void export_image(const vector3d &image)
     stbi_write_png("output.png", width, height, num_channels, final_img, width * num_channels);
 }
 
+void export_image_in_jpeg(const vector3d &image)
+{
+    /*
+    export an image into a .PNG file
+    input
+        image : image to be exported
+    */
+    int num_channels = image.size();
+    int height = image[0].size();
+    int width = image[0][0].size();
+
+    uint8_t out[width * height * num_channels] = {0};
+
+    int a = 0;
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            for (int k = 0; k < num_channels; k++)
+            {
+                out[a] = image[k][i][j];
+                a += 1;
+            }
+        }
+    }
+
+    uint8_t *final_img;
+    final_img = out;
+    // stbi_write_jpg(char const *filename, int w, int h, int comp, const void *data, int quality);
+    stbi_write_jpg("output.jpeg", width, height, num_channels, final_img, width * num_channels);
+}
+
 vector3d img_to_greyscale(const vector3d &image)
 {
     /*
