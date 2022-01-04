@@ -34,7 +34,7 @@ int main()
         mean_kern = mean_filter(kernel_size);
         vector3d averaged_image;
         averaged_image = convolution3d(image, mean_kern, false);
-        export_image(averaged_image);
+        export_image_in_jpeg(averaged_image);
     }
     else if (num == 2)
     {
