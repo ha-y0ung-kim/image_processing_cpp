@@ -6,8 +6,8 @@
 class Filter
 {
 protected:
-    vector2dd _kernel;
-    int _kernel_size;
+    vector2dd kernel;
+    int kernel_size;
 
 public:
     virtual void setfilter() = 0;
