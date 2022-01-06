@@ -12,23 +12,15 @@ enum class FileType
     JPEG
 };
 
-enum class ImageColor
-{
-    color,
-    gray
-};
-
 class Image
 {
 private:
     FileType _filetype;
     std::string _path;
     vector3d _vec;
-    ImageColor _imgcolor;
 
 public:
     Image(std::string);
-    Image(vector3d);
 
     void img_to_greyscale();
 

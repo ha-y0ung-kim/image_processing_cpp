@@ -36,10 +36,6 @@ Image::Image(std::string filepath) : _path(filepath)
     stbi_image_free(img);
 }
 
-Image::Image(vector3d imgvec) : _vec(imgvec)
-{
-}
-
 void Image::img_to_greyscale()
 {
     int num_channels = _vec.size();
