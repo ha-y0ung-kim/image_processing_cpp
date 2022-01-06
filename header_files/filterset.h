@@ -2,7 +2,7 @@
 #ifndef FILTERSET_H
 #define FILTERSET_H
 
-#include "filter.h"
+#include "Filter.h"
 
 class MeanBlur : public Filter
 {
@@ -34,7 +34,7 @@ class Sobal_x : public Filter
 {
 private:
 public:
-    Sobal_x();
+    Sobal_x(int);
     void setfilter() override;
 };
 
@@ -42,7 +42,7 @@ class Sobal_y : public Filter
 {
 private:
 public:
-    Sobal_y();
+    Sobal_y(int);
     void setfilter() override;
 };
 
