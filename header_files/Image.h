@@ -3,27 +3,30 @@
 
 #include <string>
 
+#include "vectortypes.h"
+
 enum class FileType
 {
     PNG,
     JPEG
 };
 
+
+
 class Image
 {
 private:
     FileType _filetype;
     std::string _path;
-    
+    vector3d _vec;
 
 public:
     Image(std::string);
+    Image(vector3d);
 
-    void load_image();
-    void export_image();
-    void export_image_in_jpeg();
     void img_to_greyscale();
-    void open_image_as_greyscale();
+    
+    void export_image(FileType);
 };
 
 #endif // IMAGE_H
