@@ -10,7 +10,8 @@ protected:
     int _kernel_size;
 
 public:
-    virtual void setfilter() = 0;
+    virtual void setfilter();
+    vector2dd get_kernel();
 };
 
 #endif // FILTER_H
