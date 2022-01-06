@@ -4,6 +4,7 @@
 #include <string>
 #include <algorithm>
 #include <cmath>
+#include <filesystem>
 
 #include "header_files/imageload.h"
 #include "header_files/convolution.h"
@@ -16,8 +17,20 @@
 
 int main()
 {
+    std::string filename;
+    std::cout << "type input file name : ";
+    std::cin >> filename;
+    std::filesystem::path filepath(filename);
+    while (!std::filesystem::exists(filepath))
+    {
+        std::cout << " Error in finding image file " << std::endl;
+        std::cout << "type input file name: " << std::endl;
+        std::cin >> filename;
+        filepath = filename;
+    } // Fix it
 
-    vector3d image = load_image();
+    vector3d image = load_image(filename);
+
     std::cout << "select filter type : " << std::endl;
     std::cout << "Type (1) for Mean blurring" << std::endl;
     std::cout << "Type (2) for Gaussian blurring" << std::endl;
