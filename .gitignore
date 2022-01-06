@@ -14,6 +14,8 @@ Untitled Diagram - diagrams.net_files
 test
 Makefile
 cmake_install.cmake
+output.jpeg
+test.cpp
 
 # Prerequisites
 *.d
