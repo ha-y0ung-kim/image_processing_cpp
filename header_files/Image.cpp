@@ -93,7 +93,7 @@ void Image::export_image(FileType filetype)
     {
         stbi_write_png("output.png", width, height, num_channels, final_img, width * num_channels);
     }
-    else if (filetype == FileType::PNG)
+    else if (filetype == FileType::JPEG)
     {
         stbi_write_jpg("output.jpeg", width, height, num_channels, final_img, width * num_channels);
     }
@@ -101,4 +101,87 @@ void Image::export_image(FileType filetype)
     {
         std::cout << "invalid filetype " << std::endl;
     }
+}
+
+void Image::convolution(Filter &filter, bool addpix)
+{
+    /*
+returns the convolution of an image.
+The image is zero-padded in the spatial domain to convolve through all the image pixels.
+
+Input
+    image: image to be convolved
+    kernel : convolution kernel
+    addpix : set "true" if convolution kernel has a negative value
+Return
+    output_image : convolved 3d image vector
+*/
+
+    int num_channel = _vec.size();
+    int height = _vec[0].size();
+    int width = _vec[0][0].size();
+    int pad_size = filter.get_kernel().size() - 1;
+    int kernel_half = filter.get_kernel().size() / 2;
+
+    vector3d output_image(num_channel, vector2d(height, std::vector<uint8_t>(width)));
+    output_image = _vec;
+    vector3d padded_image(num_channel, vector2d(height + pad_size, std::vector<uint8_t>(width + pad_size, 0)));
+
+    for (int k = 0; k < num_channel; k++)
+    {
+        for (int i = 0; i < height; i++)
+        {
+            for (int j = 0; j < width; j++)
+            {
+                padded_image[k][i + kernel_half][j + kernel_half] = _vec[k][i][j];
+            }
+        }
+    }
+
+    int kernel_width = filter.get_kernel().size();
+    int kernel_height = filter.get_kernel()[0].size();
+
+    double val;
+    int ii, jj;
+
+    for (int m = 0; m < num_channel; m++)
+    {
+        for (int i = 0; i < height; i++)
+        {
+            for (int j = 0; j < width; j++)
+            {
+                val = 0.0;
+                for (int k = 0; k < kernel_height; k++)
+                {
+                    for (int l = 0; l < kernel_width; l++)
+                    {
+                        ii = i - kernel_height / 2 + k;
+                        jj = j - kernel_width / 2 + l;
+                        val += (double)padded_image[m][ii + kernel_half][jj + kernel_half] * filter.get_kernel()[k][l];
+                    }
+                }
+                if (addpix == false)
+                {
+                    output_image[m][i][j] = val;
+                }
+                else
+                {
+                    val += 128;
+                    if (val < 0)
+                    {
+                        output_image[m][i][j] = 0;
+                    }
+                    else if (val > 255)
+                    {
+                        output_image[m][i][j] = 255;
+                    }
+                    else
+                    {
+                        output_image[m][i][j] = val;
+                    }
+                }
+            }
+        }
+    }
+    _vec = output_image;
 }
