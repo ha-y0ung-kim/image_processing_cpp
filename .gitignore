@@ -9,10 +9,11 @@ opencv.zip
 test.png
 CMakeFiles
 CMakeCache.txt
-CMakeLists.txt
 
 Untitled Diagram - diagrams.net_files
 test
+Makefile
+cmake_install.cmake
 
 # Prerequisites
 *.d
