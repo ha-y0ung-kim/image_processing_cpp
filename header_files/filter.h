@@ -3,25 +3,14 @@
 
 #include "vectortypes.h"
 
-enum class FilterType
-{
-    MeanBlur,
-    GaussianBlur,
-    Laplacian,
-    Sobal_x,
-    Sobal_y,
-    Unsharp
-};
-
 class Filter
 {
-private:
-    FilterType _filtertype;
+protected:
+    vector2dd _kernel;
+    int _kernel_size;
 
 public:
-    void get_kernel_size();
-    virtual void filtering();
-
+    virtual void setfilter() = 0;
 };
 
 #endif // FILTER_H
