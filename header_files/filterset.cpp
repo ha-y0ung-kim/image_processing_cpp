@@ -1,5 +1,6 @@
 #include <vector>
 #include <cmath>
+#include "Filter.h"
 
 #include "filterset.h"
 
@@ -64,9 +65,9 @@ void Laplacian::setfilter()
     _kernel = laplacian_kernel;
 }
 
-Sobal_x::Sobal_x()
+Sobal_x::Sobal_x(int kernelsize)
 {
-    _kernel_size = 3;
+    _kernel_size = kernelsize;
 }
 
 void Sobal_x::setfilter()
@@ -75,9 +76,9 @@ void Sobal_x::setfilter()
     _kernel = sobal_kernel;
 }
 
-Sobal_y::Sobal_y()
+Sobal_y::Sobal_y(int kernelsize)
 {
-    _kernel_size = 3;
+    _kernel_size = kernelsize;
 }
 
 void Sobal_y::setfilter()
