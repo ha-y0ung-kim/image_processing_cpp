@@ -8,7 +8,8 @@ Currently provided filtering methods are :
     (1) Mean blurring
     (2) Gaussian blurring
     (3) Laplacian edge detection
-    (4) Unsharp image
+    (4) Sobal_x
+    (5) Sobal_y
 
 
 ## How to use 
@@ -27,12 +28,12 @@ The output of the image is saved as "output.png"
 
 ## Compilation
 ~~~bash
-g++ -g main.cpp -o main
+cmake .
+make
 ./main
 ~~~
 
 
-## Limitations 
-- Currently, only .PNG is supported.
+- File extension of .png, jpeg supported
 - Kernel of the filter is a square kernel with odd size
 
