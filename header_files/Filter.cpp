@@ -1,5 +1,5 @@
 #include <iostream>
-#include "filter.h"
+#include "Filter.h"
 
 vector2dd Filter::get_kernel()
 {
