@@ -7,12 +7,13 @@
 #include <filesystem>
 #include <memory>
 
-#include "header_files/vectortypes.h"
-#include "header_files/kernel_input.h"
-#include "header_files/Image.h"
-#include "header_files/Filter.h"
-#include "header_files/filterset.h"
-#include "header_files/checkinput.h"
+#include "src/vectortypes.h"
+#include "src/type_kernel_size.h"
+#include "src/check_valid_input.h"
+
+#include "src/classes/Image.h"
+#include "src/classes/Filter.h"
+#include "src/classes/filterset.h"
 
 int main()
 {

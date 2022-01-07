@@ -12,7 +12,7 @@
 #ifndef FILTER_H
 #define FILTER_H
 
-#include "vectortypes.h"
+#include "../vectortypes.h"
 
 class Filter
 {

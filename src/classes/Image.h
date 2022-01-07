@@ -14,7 +14,7 @@
 
 #include <string>
 
-#include "vectortypes.h"
+#include "../vectortypes.h"
 #include "Filter.h"
 
 /**
