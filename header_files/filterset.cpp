@@ -1,6 +1,5 @@
 #include <vector>
 #include <cmath>
-#include "Filter.h"
 
 #include "filterset.h"
 
@@ -25,10 +24,7 @@ GaussianBlur::GaussianBlur(int kernelsize, double sigma)
 
 void GaussianBlur::setfilter()
 {
-    /*
-    create a gaussian filter of size (kernel_size * kernel_size) and variance sigma
-    blurrs the image
-    */
+
     vector2dd gaussian_kernel(kernel_size, std::vector<double>(kernel_size, 0));
     double sum = 0.0;
     for (int i = 0; i < kernel_size; i++)
@@ -56,10 +52,6 @@ Laplacian::Laplacian(int kernelsize)
 
 void Laplacian::setfilter()
 {
-    /*
-    create a laplacian_filter of size (kernel_size * kernel_size)
-    edge detection of an image
-    */
     vector2dd laplacian_kernel(kernel_size, std::vector<double>(kernel_size, -1.0));
     laplacian_kernel[kernel_size / 2][kernel_size / 2] = kernel_size * kernel_size - 1;
     kernel = laplacian_kernel;

@@ -1,12 +1,10 @@
 #include <iostream>
-#include <string>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "../stb/stb_image.h"
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "../stb/stb_image_write.h"
 
-#include "vectortypes.h"
 #include "Image.h"
 
 Image::Image(std::string filepath) : _path(filepath)
@@ -59,11 +57,6 @@ void Image::img_to_greyscale()
 
 void Image::export_image(FileType filetype)
 {
-    /*
-    export an image into a .PNG file
-    input
-        image : image to be exported
-    */
     int num_channels = _vec.size();
     int height = _vec[0].size();
     int width = _vec[0][0].size();
@@ -101,18 +94,6 @@ void Image::export_image(FileType filetype)
 
 void Image::convolution(Filter &filter, bool addpix)
 {
-    /*
-returns the convolution of an image.
-The image is zero-padded in the spatial domain to convolve through all the image pixels.
-
-Input
-    image: image to be convolved
-    kernel : convolution kernel
-    addpix : set "true" if convolution kernel has a negative value
-Return
-    output_image : convolved 3d image vector
-*/
-
     int num_channel = _vec.size();
     int height = _vec[0].size();
     int width = _vec[0][0].size();
