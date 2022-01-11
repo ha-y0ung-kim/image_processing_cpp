@@ -3,23 +3,25 @@
 
 #include "filterset.h"
 
-MeanBlur::MeanBlur(int kernelsize)
+MeanBlur::MeanBlur(const int kernelsize)
 {
     kernel_size = kernelsize;
+    neg_value = false;
 }
 
 void MeanBlur::setfilter()
 {
 
-    double kernel_value = 1 / ((double)kernel_size * (double)kernel_size);
+    const double kernel_value = 1 / ((double)kernel_size * (double)kernel_size);
     vector2dd mean_kernel(kernel_size, std::vector<double>(kernel_size, kernel_value));
     kernel = mean_kernel;
 }
 
-GaussianBlur::GaussianBlur(int kernelsize, double sigma)
+GaussianBlur::GaussianBlur(const int kernelsize, const double sigma)
     : _variance(sigma)
 {
     kernel_size = kernelsize;
+    neg_value = false;
 }
 
 void GaussianBlur::setfilter()
@@ -45,9 +47,10 @@ void GaussianBlur::setfilter()
     kernel = gaussian_kernel;
 }
 
-Laplacian::Laplacian(int kernelsize)
+Laplacian::Laplacian(const int kernelsize)
 {
     kernel_size = kernelsize;
+    neg_value = true;
 }
 
 void Laplacian::setfilter()
@@ -57,9 +60,10 @@ void Laplacian::setfilter()
     kernel = laplacian_kernel;
 }
 
-Sobal_x::Sobal_x(int kernelsize)
+Sobal_x::Sobal_x(const int kernelsize)
 {
     kernel_size = kernelsize;
+    neg_value = true;
 }
 
 void Sobal_x::setfilter()
@@ -68,9 +72,10 @@ void Sobal_x::setfilter()
     kernel = sobal_kernel;
 }
 
-Sobal_y::Sobal_y(int kernelsize)
+Sobal_y::Sobal_y(const int kernelsize)
 {
     kernel_size = kernelsize;
+    neg_value = true;
 }
 
 void Sobal_y::setfilter()

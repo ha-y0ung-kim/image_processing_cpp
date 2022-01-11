@@ -37,9 +37,6 @@ int main()
     std::cout << "Type (1) to blurr the image" << std::endl;
     std::cout << "Type (2) to detect edges" << std::endl;
 
-    // int num;
-    // std::cin >> num;
-
     int num = check_valid_input(2);
 
     std::unique_ptr<Filter> filter;
@@ -51,8 +48,6 @@ int main()
         std::cout << "Type (1) for Mean blurring" << std::endl;
         std::cout << "Type (2) for Gaussian blurring" << std::endl;
 
-        // int num1;
-        // std::cin >> num1;
         int num1 = check_valid_input(2);
 
         int kernel_size = type_kernel_size();
@@ -78,9 +73,6 @@ int main()
         std::cout << "Type (2) for sobal filter in x direction" << std::endl;
         std::cout << "Type (3) for sobal filter in y direction" << std::endl;
 
-        // int num1;
-        // std::cin >> num1;
-
         int num1 = check_valid_input(3);
 
         if (num1 == 1)
@@ -99,7 +91,7 @@ int main()
         }
     }
     filter->setfilter();
-    image.convolution(*filter, true);
+    image.convolution(*filter);
 
     std::cout << " select an output image extension " << std::endl;
     std::cout << "Type (1) for PNG" << std::endl;

@@ -10,7 +10,7 @@
  * @param maxval integer value of the maximum possible integer value
  * @return int valid input value got from the user
  */
-int check_valid_input(int maxval)
+int check_valid_input(const int maxval)
 {
     double userinputval;
     std::cin >> userinputval;

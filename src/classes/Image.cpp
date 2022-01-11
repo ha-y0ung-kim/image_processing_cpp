@@ -7,7 +7,7 @@
 
 #include "Image.h"
 
-Image::Image(std::string filepath) : _path(filepath)
+Image::Image(const std::string filepath) : _path(filepath)
 {
     const char *img_filename = filepath.c_str();
     int width, height, num_channels;
@@ -36,9 +36,9 @@ Image::Image(std::string filepath) : _path(filepath)
 
 void Image::img_to_greyscale()
 {
-    int num_channels = _vec.size();
-    int height = _vec[0].size();
-    int width = _vec[0][0].size();
+    const int num_channels = _vec.size();
+    const int height = _vec[0].size();
+    const int width = _vec[0][0].size();
 
     vector3d grey_image(1, vector2d(height, std::vector<uint8_t>(width)));
 
@@ -57,9 +57,9 @@ void Image::img_to_greyscale()
 
 void Image::export_image(FileType filetype)
 {
-    int num_channels = _vec.size();
-    int height = _vec[0].size();
-    int width = _vec[0][0].size();
+    const int num_channels = _vec.size();
+    const int height = _vec[0].size();
+    const int width = _vec[0][0].size();
 
     uint8_t out[width * height * num_channels] = {0};
 
@@ -92,13 +92,13 @@ void Image::export_image(FileType filetype)
     }
 }
 
-void Image::convolution(Filter &filter, bool addpix)
+void Image::convolution(Filter &filter)
 {
-    int num_channel = _vec.size();
-    int height = _vec[0].size();
-    int width = _vec[0][0].size();
-    int pad_size = filter.get_kernel().size() - 1;
-    int kernel_half = filter.get_kernel().size() / 2;
+    const int num_channel = _vec.size();
+    const int height = _vec[0].size();
+    const int width = _vec[0][0].size();
+    const int pad_size = filter.get_kernel().size() - 1;
+    const int kernel_half = filter.get_kernel().size() / 2;
 
     vector3d output_image(num_channel, vector2d(height, std::vector<uint8_t>(width)));
     output_image = _vec;
@@ -115,8 +115,8 @@ void Image::convolution(Filter &filter, bool addpix)
         }
     }
 
-    int kernel_width = filter.get_kernel().size();
-    int kernel_height = filter.get_kernel()[0].size();
+    const int kernel_width = filter.get_kernel().size();
+    const int kernel_height = filter.get_kernel()[0].size();
 
     double val;
     int ii, jj;
@@ -137,7 +137,7 @@ void Image::convolution(Filter &filter, bool addpix)
                         val += (double)padded_image[m][ii + kernel_half][jj + kernel_half] * filter.get_kernel()[k][l];
                     }
                 }
-                if (addpix == false)
+                if (filter.get_negval() == false)
                 {
                     output_image[m][i][j] = val;
                 }

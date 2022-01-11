@@ -19,6 +19,7 @@ class Filter
 protected:
     vector2dd kernel; /** 2dimensional double vector with kernel value*/
     int kernel_size;  /** integer with kernel size */
+    bool neg_value;   /** True if kernel has a negative value*/
 
 public:
     /**
@@ -31,6 +32,15 @@ public:
      * @return vector2dd
      */
     vector2dd get_kernel();
+    /**
+     * @brief Get the negval object
+     *
+     * @return true if kernel has a negative value
+     * @return false if kernel is fully positive
+     * @see Image.convolution(Filter, bool)
+     */
+
+    bool get_negval();
 
     /**
      * @brief Destroy the Filter object

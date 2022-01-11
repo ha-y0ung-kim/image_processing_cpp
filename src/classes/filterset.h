@@ -27,7 +27,7 @@ public:
      * @brief Construct a new Mean Blur object
      * @param integer of kernel_size
      */
-    MeanBlur(int);
+    MeanBlur(const int);
     /**
      * @brief set mean filter kernel
      * set a mean kernel of size (kernel_size * kernel_size)
@@ -52,7 +52,7 @@ public:
      * @param double variance of the gaussian function applied
      *
      */
-    GaussianBlur(int, double);
+    GaussianBlur(const int, const double);
     /**
      * @brief set gaussian filter kernel
      * set a gaussian kernel of size (kernel_size * kernel_size) and gaussian variance of _variance
@@ -74,7 +74,7 @@ public:
      * @brief Construct a new Laplacian filter object
      * @param integer of kernel_size
      */
-    Laplacian(int);
+    Laplacian(const int);
     /**
      * @brief set laplacian filter kernel
      * set  a laplacian kernel of size (kernel_size * kernel_size)
@@ -96,7 +96,7 @@ public:
      * @brief Construct a new Sobal_x object
      * @param integer of kernel_size. fixed as 3
      */
-    Sobal_x(int);
+    Sobal_x(const int);
     /**
      * @brief set sobal kernel in x direction
      * set a sobal filter kernel of size (3 x 3) that detects edge in x direction
@@ -119,7 +119,7 @@ public:
      * @brief Construct a new Sobal_y object
      * @param integer of kernel_size. fixed as 3
      */
-    Sobal_y(int);
+    Sobal_y(const int);
     /**
      * @brief set sobal kernel in y direction
      * set a sobal filter kernel of size (3 x 3) that detects edge in y direction

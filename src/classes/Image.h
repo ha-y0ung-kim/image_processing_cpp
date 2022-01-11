@@ -36,15 +36,15 @@ class Image
 {
 private:
     FileType _filetype;
-    std::string _path; /** stirng that contains a file path */
-    vector3d _vec;     /** 3 dimensional double vector with image values */
+    const std::string _path; /** string that contains a file path */
+    vector3d _vec;           /** 3 dimensional double vector with image values */
 
 public:
     /**
      * @brief Construct a new Image object
      * @param string with image file location
      */
-    Image(std::string);
+    Image(const std::string);
 
     /**
      * @brief function that converts color image to grey image
@@ -64,7 +64,7 @@ public:
      * @param bool set "true" if the convolution kernel has a negative value. else, set "false"
      */
 
-    void convolution(Filter &, bool);
+    void convolution(Filter &);
     // https://stackoverflow.com/questions/4282014/c-abstract-class-cant-have-a-method-with-a-parameter-of-that-class
 };
 
