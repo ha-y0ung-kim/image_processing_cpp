@@ -25,13 +25,15 @@ public:
     /**
      * @brief pure virtual function of setting filters
      */
-    virtual void setfilter() = 0;
+    virtual void set_filter() = 0;
+
     /**
      * @brief Get the kernel object
      *
      * @return vector2dd
      */
-    vector2dd get_kernel();
+    vector2dd get_kernel() const;
+
     /**
      * @brief Get the negval object
      *
@@ -40,13 +42,12 @@ public:
      * @see Image.convolution(Filter, bool)
      */
 
-    bool get_negval();
+    bool get_negval() const;
 
     /**
      * @brief Destroy the Filter object
      *
      */
-
     virtual ~Filter() = default;
 };
 
