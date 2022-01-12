@@ -7,7 +7,7 @@
 
 #include "Image.h"
 
-Image::Image(const std::string filepath) : _path(filepath)
+Image::Image(const std::string &filepath) : _path(filepath)
 {
     const char *img_filename = filepath.c_str();
     int width, height, num_channels;
@@ -55,7 +55,7 @@ void Image::img_to_greyscale()
     _vec = grey_image;
 }
 
-void Image::export_image(FileType filetype)
+void Image::export_image(const FileType &filetype)
 {
     const int num_channels = _vec.size();
     const int height = _vec[0].size();
@@ -80,11 +80,11 @@ void Image::export_image(FileType filetype)
     final_img = out;
     if (filetype == FileType::PNG)
     {
-        stbi_write_png("output.png", width, height, num_channels, final_img, width * num_channels);
+        stbi_write_png("../output.png", width, height, num_channels, final_img, width * num_channels);
     }
     else if (filetype == FileType::JPEG)
     {
-        stbi_write_jpg("output.jpeg", width, height, num_channels, final_img, width * num_channels);
+        stbi_write_jpg("../output.jpeg", width, height, num_channels, final_img, width * num_channels);
     }
     else
     {
@@ -92,7 +92,7 @@ void Image::export_image(FileType filetype)
     }
 }
 
-void Image::convolution(Filter &filter)
+void Image::convolution(const Filter &filter)
 {
     const int num_channel = _vec.size();
     const int height = _vec[0].size();

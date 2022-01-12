@@ -21,7 +21,6 @@
  *
  * @brief enum class FileType that with image file extensions PNG, JPEG
  */
-
 enum class FileType
 {
     PNG,
@@ -31,7 +30,6 @@ enum class FileType
 /**
  * @brief Image class
  */
-
 class Image
 {
 private:
@@ -44,7 +42,7 @@ public:
      * @brief Construct a new Image object
      * @param string with image file location
      */
-    Image(const std::string);
+    Image(const std::string &);
 
     /**
      * @brief function that converts color image to grey image
@@ -56,15 +54,16 @@ public:
      * @param FileType output image extension type. Set by the user
      * Output is saved on either "output.png" or "output.jpeg"
      */
-    void export_image(FileType);
+
+    void export_image(const FileType &);
+
     /**
      * @brief convolves a image with a filter kernel
      * The image is zero-padded in the spatial domain to convolve through all the image pixels
      * @param Filter filter kernel that should be convolved throughout the image
      * @param bool set "true" if the convolution kernel has a negative value. else, set "false"
      */
-
-    void convolution(Filter &);
+    void convolution(const Filter &);
     // https://stackoverflow.com/questions/4282014/c-abstract-class-cant-have-a-method-with-a-parameter-of-that-class
 };
 
