@@ -8,8 +8,8 @@
 #include <memory>
 
 #include "src/vectortypes.h"
-#include "src/type_kernel_size.h"
 #include "src/check_valid_input.h"
+#include "src/type_kernel_size.h"
 
 #include "src/classes/Image.h"
 #include "src/classes/Filter.h"
@@ -31,14 +31,17 @@ int main()
         filepath = filename;
     }
 
+    // construct an image
     Image image(filename);
 
     std::cout << " select image modification method " << std::endl;
     std::cout << "Type (1) to blurr the image" << std::endl;
     std::cout << "Type (2) to detect edges" << std::endl;
 
+    // select a processing method
     int num = check_valid_input(2);
 
+    // Declare an abstract Filter object
     std::unique_ptr<Filter> filter;
 
     if (num == 1)
@@ -72,8 +75,10 @@ int main()
         std::cout << "Type (1) for Laplacian filter" << std::endl;
         std::cout << "Type (2) for sobal filter in x direction" << std::endl;
         std::cout << "Type (3) for sobal filter in y direction" << std::endl;
+        std::cout << "Type (4) for robert cross edge detector in x direction" << std::endl;
+        std::cout << "Type (5) for robert cross edge detector in y direction" << std::endl;
 
-        int num1 = check_valid_input(3);
+        int num1 = check_valid_input(5);
 
         if (num1 == 1)
         {
@@ -85,14 +90,23 @@ int main()
         {
             filter = std::make_unique<Sobal_x>(3);
         }
-        else
+        else if (num1 == 3)
         {
             filter = std::make_unique<Sobal_y>(3);
         }
+        else if (num1 == 4)
+        {
+            filter = std::make_unique<Robert_Cross_x>(2);
+        }
+        else
+        {
+            filter = std::make_unique<Robert_Cross_y>(2);
+        }
     }
-    filter->setfilter();
+    filter->set_filter();
     image.convolution(*filter);
 
+    // Image export
     std::cout << " select an output image extension " << std::endl;
     std::cout << "Type (1) for PNG" << std::endl;
     std::cout << "Type (2) for JPEG" << std::endl;
