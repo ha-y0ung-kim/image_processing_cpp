@@ -9,12 +9,11 @@ MeanBlur::MeanBlur(const int kernelsize)
     neg_value = false;
 }
 
-void MeanBlur::setfilter()
+void MeanBlur::set_filter()
 {
 
     const double kernel_value = 1 / ((double)kernel_size * (double)kernel_size);
-    vector2dd mean_kernel(kernel_size, std::vector<double>(kernel_size, kernel_value));
-    kernel = mean_kernel;
+    kernel = vector2dd(kernel_size, std::vector<double>(kernel_size, kernel_value));
 }
 
 GaussianBlur::GaussianBlur(const int kernelsize, const double sigma)
@@ -24,7 +23,7 @@ GaussianBlur::GaussianBlur(const int kernelsize, const double sigma)
     neg_value = false;
 }
 
-void GaussianBlur::setfilter()
+void GaussianBlur::set_filter()
 {
 
     vector2dd gaussian_kernel(kernel_size, std::vector<double>(kernel_size, 0));
@@ -53,7 +52,7 @@ Laplacian::Laplacian(const int kernelsize)
     neg_value = true;
 }
 
-void Laplacian::setfilter()
+void Laplacian::set_filter()
 {
     vector2dd laplacian_kernel(kernel_size, std::vector<double>(kernel_size, -1.0));
     laplacian_kernel[kernel_size / 2][kernel_size / 2] = kernel_size * kernel_size - 1;
@@ -66,10 +65,9 @@ Sobal_x::Sobal_x(const int kernelsize)
     neg_value = true;
 }
 
-void Sobal_x::setfilter()
+void Sobal_x::set_filter()
 {
-    vector2dd sobal_kernel = {{1.0, 0.0, -1.0}, {2.0, 0.0, -2.0}, {1.0, 0.0, -1.0}};
-    kernel = sobal_kernel;
+    kernel = vector2dd{{1.0, 0.0, -1.0}, {2.0, 0.0, -2.0}, {1.0, 0.0, -1.0}};
 }
 
 Sobal_y::Sobal_y(const int kernelsize)
@@ -78,8 +76,29 @@ Sobal_y::Sobal_y(const int kernelsize)
     neg_value = true;
 }
 
-void Sobal_y::setfilter()
+void Sobal_y::set_filter()
 {
-    vector2dd sobal_kernel = {{1.0, 2.0, 1.0}, {0.0, 0.0, 0.0}, {-1.0, -2.0, -1.0}};
-    kernel = sobal_kernel;
+    kernel = vector2dd{{1.0, 2.0, 1.0}, {0.0, 0.0, 0.0}, {-1.0, -2.0, -1.0}};
+}
+
+Robert_Cross_x::Robert_Cross_x(const int kernelsize)
+{
+    kernel_size = kernelsize;
+    neg_value = true;
+}
+
+void Robert_Cross_x::set_filter()
+{
+    kernel = vector2dd{{1.0, 0.0}, {0.0, -1.0}};
+}
+
+Robert_Cross_y::Robert_Cross_y(const int kernelsize)
+{
+    kernel_size = kernelsize;
+    neg_value = true;
+}
+
+void Robert_Cross_y::set_filter()
+{
+    kernel = vector2dd{{0.0, 1.0}, {-1.0, 0.0}};
 }
