@@ -97,8 +97,12 @@ void Image::convolution(const Filter &filter)
     const int num_channel = _vec.size();
     const int height = _vec[0].size();
     const int width = _vec[0][0].size();
-    const int pad_size = filter.get_kernel().size() - 1;
-    const int kernel_half = filter.get_kernel().size() / 2;
+
+    const vector2dd kernel = filter.get_kernel();
+    const int kernel_width = kernel.size();
+    const int kernel_height = kernel[0].size();
+    const int pad_size = kernel_width - 1;
+    const int kernel_half = kernel_width / 2;
 
     vector3d output_image(num_channel, vector2d(height, std::vector<uint8_t>(width)));
     output_image = _vec;
@@ -114,9 +118,6 @@ void Image::convolution(const Filter &filter)
             }
         }
     }
-
-    const int kernel_width = filter.get_kernel().size();
-    const int kernel_height = filter.get_kernel()[0].size();
 
     double val;
     int ii, jj;
@@ -134,29 +135,11 @@ void Image::convolution(const Filter &filter)
                     {
                         ii = i - kernel_height / 2 + k;
                         jj = j - kernel_width / 2 + l;
-                        val += (double)padded_image[m][ii + kernel_half][jj + kernel_half] * filter.get_kernel()[k][l];
+                        val += (double)padded_image[m][ii + kernel_half][jj + kernel_half] * kernel[k][l];
                     }
                 }
-                if (filter.get_negval() == false)
-                {
-                    output_image[m][i][j] = val;
-                }
-                else
-                {
-                    val += 128;
-                    if (val < 0)
-                    {
-                        output_image[m][i][j] = 0;
-                    }
-                    else if (val > 255)
-                    {
-                        output_image[m][i][j] = 255;
-                    }
-                    else
-                    {
-                        output_image[m][i][j] = val;
-                    }
-                }
+                val = std::fmod(val + 128, 256);
+                output_image[m][i][j] = val;
             }
         }
     }
