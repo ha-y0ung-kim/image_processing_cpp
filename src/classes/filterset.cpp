@@ -6,6 +6,7 @@
 MeanBlur::MeanBlur(const int kernelsize)
 {
     kernel_size = kernelsize;
+    neg_value = false;
 }
 
 void MeanBlur::set_filter()
@@ -19,6 +20,7 @@ GaussianBlur::GaussianBlur(const int kernelsize, const double sigma)
     : _variance(sigma)
 {
     kernel_size = kernelsize;
+    neg_value = false;
 }
 
 void GaussianBlur::set_filter()
@@ -47,6 +49,7 @@ void GaussianBlur::set_filter()
 Laplacian::Laplacian(const int kernelsize)
 {
     kernel_size = kernelsize;
+    neg_value = true;
 }
 
 void Laplacian::set_filter()
@@ -59,6 +62,7 @@ void Laplacian::set_filter()
 Sobal_x::Sobal_x(const int kernelsize)
 {
     kernel_size = kernelsize;
+    neg_value = true;
 }
 
 void Sobal_x::set_filter()
@@ -69,6 +73,7 @@ void Sobal_x::set_filter()
 Sobal_y::Sobal_y(const int kernelsize)
 {
     kernel_size = kernelsize;
+    neg_value = true;
 }
 
 void Sobal_y::set_filter()
@@ -79,6 +84,7 @@ void Sobal_y::set_filter()
 Robert_Cross_x::Robert_Cross_x(const int kernelsize)
 {
     kernel_size = kernelsize;
+    neg_value = true;
 }
 
 void Robert_Cross_x::set_filter()
@@ -89,6 +95,7 @@ void Robert_Cross_x::set_filter()
 Robert_Cross_y::Robert_Cross_y(const int kernelsize)
 {
     kernel_size = kernelsize;
+    neg_value = true;
 }
 
 void Robert_Cross_y::set_filter()

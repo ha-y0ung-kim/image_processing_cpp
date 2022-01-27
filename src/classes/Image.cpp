@@ -101,6 +101,7 @@ void Image::convolution(const Filter &filter)
     const vector2dd kernel = filter.get_kernel();
     const int kernel_width = kernel.size();
     const int kernel_height = kernel[0].size();
+
     const int pad_size = kernel_width - 1;
     const int kernel_half = kernel_width / 2;
 
@@ -122,24 +123,55 @@ void Image::convolution(const Filter &filter)
     double val;
     int ii, jj;
 
-    for (int m = 0; m < num_channel; m++)
+    if (filter.get_negval() == false)
     {
-        for (int i = 0; i < height; i++)
+        for (int m = 0; m < num_channel; m++)
         {
-            for (int j = 0; j < width; j++)
+            for (int i = 0; i < height; i++)
             {
-                val = 0.0;
-                for (int k = 0; k < kernel_height; k++)
+                for (int j = 0; j < width; j++)
                 {
-                    for (int l = 0; l < kernel_width; l++)
+                    val = 0.0;
+                    for (int k = 0; k < kernel_height; k++)
                     {
-                        ii = i - kernel_height / 2 + k;
-                        jj = j - kernel_width / 2 + l;
-                        val += (double)padded_image[m][ii + kernel_half][jj + kernel_half] * kernel[k][l];
+                        for (int l = 0; l < kernel_width; l++)
+                        {
+                            ii = i - kernel_height / 2 + k;
+                            jj = j - kernel_width / 2 + l;
+                            val += (double)padded_image[m][ii + kernel_half][jj + kernel_half] * kernel[k][l];
+                        }
                     }
+
+                    output_image[m][i][j] = val;
                 }
-                val = std::fmod(val + 128, 256);
-                output_image[m][i][j] = val;
+            }
+        }
+    }
+
+    else
+    {
+        for (int m = 0; m < num_channel; m++)
+        {
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    val = 0.0;
+                    for (int k = 0; k < kernel_height; k++)
+                    {
+                        for (int l = 0; l < kernel_width; l++)
+                        {
+                            ii = i - kernel_height / 2 + k;
+                            jj = j - kernel_width / 2 + l;
+                            val += (double)padded_image[m][ii + kernel_half][jj + kernel_half] * kernel[k][l];
+                        }
+                    }
+
+                    val += 128;
+                    val = std::max(0.0, val);
+                    val = std::min(val, 255.0);
+                    output_image[m][i][j] = val;
+                }
             }
         }
     }
